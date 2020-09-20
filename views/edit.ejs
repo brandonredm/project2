@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form action="/reviews/<%=reviews.id%>?_method=PUT" method="POST">
+      Album: <input type="text" name="album" value="<%=reviews.album%>"/><br/>
+      Artist: <input type="text" name="artist" value="<%=reviews.artist%>"/><br/>
+      Album art: <input type="text" name="art" value="<%=reviews.art%>"/><br/>
+      Write-up: <input type="text" name="writeup" value="<%=reviews.writeup%>"/><br/>
+      Score: <input type="number" name="score" value="<%=reviews.score%>"/><br/>
+      <input type="submit" name="" value="submit changes"/>
+    </form>
+  </body>
+</html>

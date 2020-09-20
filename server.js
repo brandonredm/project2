@@ -51,6 +51,7 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 // Routes
 //___________________
 //localhost:3000
+
 app.get('/', (req, res) => {
   res.redirect('/reviews')
 })
@@ -63,7 +64,29 @@ app.get('/reviews' , (req, res) => {
   });
 });
 
-
+app.get('/reviews/seed', (req, res) => {
+  Reviews.create(
+    [
+      {
+        album: 'Live. Love. ASAP',
+        artist: 'A$AP Rocky',
+        art: 'https://m.media-amazon.com/images/I/61P4wz16MGL._AC_SS350_.jpg',
+        writeup: 'Hazy beats and super solid flows. Great album',
+        score: '10'
+      },
+      {
+        album: 'Yeezus',
+        artist: 'Kanye West',
+        art: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSqiF5cSN0TEeFOAKyfjZE7oGPzJjhftXlFxQ&usqp=CAU',
+        writeup: 'Harsh and beautiful sounds. Amazing album',
+        score: '10'
+      }
+    ],
+    (err, data)=>{
+      res.redirect('/reviews');
+    }
+  )
+});
 
 app.get('/reviews/new', (req, res) => {
   res.render('new.ejs');
@@ -77,6 +100,17 @@ app.get('/reviews/:id', (req, res)=>{
   });
 });
 
+app.get('/reviews/:id/edit', (req, res)=> {
+  Reviews.findById(req.params.id, (err, chosenReview)=> {
+    res.render(
+      'edit.ejs',
+      {
+        reviews: chosenReview
+      }
+    );
+  });
+});
+
 
 app.post('/reviews', (req, res) => {
   Reviews.create(req.body, (error, newReview) => {
@@ -84,6 +118,17 @@ app.post('/reviews', (req, res) => {
   });
 });
 
+app.delete('/reviews/:id', (req, res)=> {
+  Reviews.findByIdAndRemove(req.params.id, (err, data)=> {
+    res.redirect('/reviews');
+  });
+});
+
+app.put('/reviews/:id', (req, res)=> {
+  Reviews.findByIdAndUpdate(req.params.id, req.body, (err, updatedModel)=>{
+    res.redirect('/reviews');
+  });
+});
 
 //___________________
 //Listener

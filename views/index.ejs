@@ -2,17 +2,21 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Pitchforked Repo</title>
   </head>
   <body>
-    <h1>Album Review</h1>
-    <ul>
+    <h1>Albums</h1>
+    <ul class="flexing">
         <% for(let i = 0; i < reviews.length; i++) { %>
-            <li>
-              <%=reviews[i].album; %>
+            <li class="music">
+              <%=reviews[i].album; %> <br>
               <a href="/reviews/<%=reviews[i].id;%>">
                   <img src="<%=reviews[i].art;%>">
-              </a>
+              </a> <br>
+              <a href="/reviews/<%=reviews[i].id;%>/edit">update</a>
+              <form action="/reviews/<%=reviews[i].id;%>?_method=DELETE" method="POST">
+                <input type="submit" value="remove"/>
+              </form>
             </li>
           <% } %>
       </ul>
@@ -21,3 +25,28 @@
       </nav>
    </body>
 </html>
+
+<style>
+body {
+  background-color: teal;
+}
+.flexing {
+  display: flex;
+  padding: 12px;
+}
+.music {
+  border: solid white 1px;
+  border-radius: 5px;
+  justify-content: center;
+  padding: 10px;
+  margin: 10px;
+  font-weight: bolder;
+  font-style: oblique;
+  list-style: none;
+}
+
+img {
+  height: 120px;
+  width: 120px;
+}
+</style>
