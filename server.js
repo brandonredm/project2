@@ -4,9 +4,11 @@
 const express = require('express');
 const methodOverride  = require('method-override');
 const mongoose = require('mongoose');
+const Reviews = require('./models/reviews.js');
 const app = express();
 const db = mongoose.connection;
 require('dotenv').config()
+
 //___________________
 //Port
 //___________________
@@ -38,7 +40,7 @@ db.on('disconnected', () => console.log('mongo disconnected'));
 app.use(express.static('public'));
 
 // populates req.body with parsed info from forms - if no data from forms will return an empty object {}
-app.use(express.urlencoded({ extended: false }));// extended: false - does not allow nested objects in query strings
+app.use(express.urlencoded({ extended: true }));// extended: false - does not allow nested objects in query strings
 app.use(express.json());// returns middleware that only parses JSON - may or may not need it depending on your project
 
 //use method override
@@ -49,9 +51,39 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 // Routes
 //___________________
 //localhost:3000
-app.get('/' , (req, res) => {
-  res.send('Hello World!');
+app.get('/', (req, res) => {
+  res.redirect('/reviews')
+})
+
+app.get('/reviews' , (req, res) => {
+  Reviews.find({}, (error, allReviews) => {
+    res.render('index.ejs', {
+      reviews: allReviews
+    });
+  });
 });
+
+
+
+app.get('/reviews/new', (req, res) => {
+  res.render('new.ejs');
+});
+
+app.get('/reviews/:id', (req, res)=>{
+  Reviews.findById(req.params.id, (err, chosenReview) =>{
+    res.render('show.ejs', {
+      reviews: chosenReview
+    })
+  });
+});
+
+
+app.post('/reviews', (req, res) => {
+  Reviews.create(req.body, (error, newReview) => {
+    res.redirect('/reviews');
+  });
+});
+
 
 //___________________
 //Listener

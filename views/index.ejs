@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Album Review</h1>
+    <ul>
+        <% for(let i = 0; i < reviews.length; i++) { %>
+            <li>
+              <%=reviews[i].album; %>
+              <a href="/reviews/<%=reviews[i].id;%>">
+                  <img src="<%=reviews[i].art;%>">
+              </a>
+            </li>
+          <% } %>
+      </ul>
+      <nav>
+        <a href="/reviews/new">New Entry</a>
+      </nav>
+   </body>
+</html>
