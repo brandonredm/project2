@@ -3,9 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>Pitchforked Repo</title>
+    <script src="musicapp.js" charset="utf-8"></script>
   </head>
   <body>
-    <h1>Albums</h1>
+        <nav>
+          <%- include ('nav') %>
+        </nav>
+    <h1>Music Reviews</h1>
     <ul class="flexing">
         <% for(let i = 0; i < reviews.length; i++) { %>
             <li class="music">
@@ -25,19 +29,26 @@
       </nav>
    </body>
 </html>
-
+<script>
+<%- include ('musicapp') %>
+</script>
 <style>
 body {
   background-color: teal;
 }
+
+h1 {
+  position: relative;
+  text-align: center;
+}
 .flexing {
   display: flex;
-  padding: 12px;
+  align-content: flex-start;
+
 }
 .music {
   border: solid white 1px;
   border-radius: 5px;
-  justify-content: center;
   padding: 10px;
   margin: 10px;
   font-weight: bolder;
@@ -49,4 +60,15 @@ img {
   height: 120px;
   width: 120px;
 }
-</style>
+
+@media (max-width: 700px) {
+  .flexing {
+    display: inline-block;
+  }
+  img {
+    height: 180px;
+    width: 180px
+  }
+
+
+}

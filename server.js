@@ -4,7 +4,10 @@
 const express = require('express');
 const methodOverride  = require('method-override');
 const mongoose = require('mongoose');
+const session = require('express-session')
 const reviewsController = require('./controllers/reviews.js');
+const userController = require('./controllers/users_controller.js')
+const sessionsController = require('./controllers/sessions_controller.js')
 const app = express();
 const db = mongoose.connection;
 require('dotenv').config()
@@ -35,17 +38,36 @@ db.on('disconnected', () => console.log('mongo disconnected'));
 //___________________
 //Middleware
 //___________________
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
 
 //use public folder for static assets
+
+
+
 app.use(express.static('public'));
 
 // populates req.body with parsed info from forms - if no data from forms will return an empty object {}
-app.use(express.urlencoded({ extended: true }));// extended: false - does not allow nested objects in query strings
+
 app.use(express.json());// returns middleware that only parses JSON - may or may not need it depending on your project
 
 //use method override
-app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
-app.use(reviewsController);
+// allow POST, PUT and DELETE from a form
+app.use('/reviews', reviewsController);
+
+
+app.use('/users', userController);
+
+app.use('/sessions', sessionsController)
+
 
 //___________________
 // Routes
