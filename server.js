@@ -42,9 +42,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(
   session({
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: false
+    secret: 'YouWasRightIWasWrong',
+    resave: true,
+    saveUninitialized: true
   })
 );
 
@@ -58,7 +58,6 @@ app.use(express.static('public'));
 // populates req.body with parsed info from forms - if no data from forms will return an empty object {}
 
 app.use(express.json());// returns middleware that only parses JSON - may or may not need it depending on your project
-
 //use method override
 // allow POST, PUT and DELETE from a form
 app.use('/reviews', reviewsController);
@@ -68,7 +67,7 @@ app.use('/users', userController);
 
 app.use('/sessions', sessionsController)
 
-
+mongoose.set('useCreateIndex', true)
 //___________________
 // Routes
 //___________________
